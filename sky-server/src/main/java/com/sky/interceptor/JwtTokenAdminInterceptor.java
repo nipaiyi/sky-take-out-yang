@@ -1,6 +1,7 @@
 package com.sky.interceptor;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.context.BaseContext;
 import com.sky.properties.JwtProperties;
 import com.sky.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -47,6 +48,9 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
             log.info("当前员工id：", empId);
+            //存储当前登录的用户的ID  新增用户中有字段为创建人id 这里就来记录创建人id
+            //另外 在一次操作中 使用的是同一线程 所以这里就可以使用线程变量来存储
+            BaseContext.setCurrentId(empId);
             //3、通过，放行
             return true;
         } catch (Exception ex) {
