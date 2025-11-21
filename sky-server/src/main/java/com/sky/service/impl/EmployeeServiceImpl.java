@@ -120,4 +120,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
+    @Override
+    public Employee getById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+
+        return employee;
+    }
+
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        //在这里我重用了 startOrStop 这个方法 对于employ更改数据的统一使用的这个方法 省一些代码
+        //好吧 我看视频也使用的这种方法  属于是英雄所见略同了
+        employeeMapper.startOrStop(employee);
+    }
+
 }
