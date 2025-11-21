@@ -94,4 +94,13 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    //编辑员工状态
+    @PostMapping("/status/{status}")
+    public Result startOrStop(@PathVariable Integer status, Long id){   //@PathVariable注解表示将路径中的参数绑定到方法参数上
+        log.info("员工状态：{}", status);
+        log.info("员工id：{}", id);
+        employeeService.startOrStop(status, id);
+        return Result.success();
+    }
+
 }
