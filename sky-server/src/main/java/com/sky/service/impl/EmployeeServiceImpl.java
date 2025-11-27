@@ -82,13 +82,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         BeanUtils.copyProperties(employeeDTO, employee);
 
         //设置员工的创建时间、更新时间、状态、默认密码、创建人、更新人
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());   因为已经使用AOP 对这两个字段赋值了 所以在我的service就不需要了
+//        employee.setUpdateTime(LocalDateTime.now());
         employee.setStatus(StatusConstant.ENABLE);
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
 
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setCreateUser(BaseContext.getCurrentId());  因为已经使用AOP 对这两个字段赋值了 所以在我的service就不需要了
+//        employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.save(employee);
     }
@@ -131,8 +131,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void update(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateTime(LocalDateTime.now());   因为已经使用AOP 对这两个字段赋值了 所以在我的service就不需要了
+//        employee.setUpdateUser(BaseContext.getCurrentId());
+
         //在这里我重用了 startOrStop 这个方法 对于employ更改数据的统一使用的这个方法 省一些代码
         //好吧 我看视频也使用的这种方法  属于是英雄所见略同了
         employeeMapper.startOrStop(employee);
